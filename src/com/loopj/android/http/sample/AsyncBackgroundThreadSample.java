@@ -36,7 +36,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.ResponseHandlerInterface;
-// test git test  111  qq
+// test git test  111  qq123
 
 public class AsyncBackgroundThreadSample extends SampleParentActivity {
     private static final String LOG_TAG = "AsyncBackgroundThreadSample";

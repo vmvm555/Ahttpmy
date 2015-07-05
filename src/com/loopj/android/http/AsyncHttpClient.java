@@ -113,6 +113,8 @@ import android.util.Log;
  * @see com.loopj.android.http.ResponseHandlerInterface
  * @see com.loopj.android.http.RequestParams
  */
+
+//asynchttp µÚÒ»´Î
 public class AsyncHttpClient {
 
     public static final String LOG_TAG = "AsyncHttpClient";
