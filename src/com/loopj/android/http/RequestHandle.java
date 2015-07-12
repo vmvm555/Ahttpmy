@@ -69,6 +69,8 @@ public class RequestHandle {
      * exception, or cancellation -- in all of these cases, this method will return true.
      *
      * @return true if this task completed
+     * 
+     * 当请求为null或请求完成的时候,返回true
      */
     public boolean isFinished() {
         AsyncHttpRequest _request = request.get();
@@ -79,12 +81,19 @@ public class RequestHandle {
      * Returns true if this task was cancelled before it completed normally.
      *
      * @return true if this task was cancelled before it completed
+     * 
+     * 当请求为null,或者请求取消的时候,返回true
      */
     public boolean isCancelled() {
         AsyncHttpRequest _request = request.get();
         return _request == null || _request.isCancelled();
     }
-
+    /**
+     * 是否清除掉软引用垃圾
+     * @return
+     * 
+     * 当请求取消,或完成的时候,清除软引用
+     */
     public boolean shouldBeGarbageCollected() {
         boolean should = isCancelled() || isFinished();
         if (should)

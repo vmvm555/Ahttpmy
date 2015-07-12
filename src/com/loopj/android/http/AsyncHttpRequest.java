@@ -81,14 +81,17 @@ public class AsyncHttpRequest implements Runnable {
     public void onPostProcessRequest(AsyncHttpRequest request) {
         // default action is to do nothing...
     }
-
+    /**
+     */
     @Override
     public void run() {
+    	//请求取消后返回
         if (isCancelled()) {
             return;
         }
 
         // Carry out pre-processing for this request only once.
+        // 准备过程执行一次
         if (!isRequestPreProcessed) {
             isRequestPreProcessed = true;
             onPreProcessRequest(this);
@@ -97,7 +100,7 @@ public class AsyncHttpRequest implements Runnable {
         if (isCancelled()) {
             return;
         }
-
+        // 请求即将执行
         responseHandler.sendStartMessage();
 
         if (isCancelled()) {
@@ -105,9 +108,11 @@ public class AsyncHttpRequest implements Runnable {
         }
 
         try {
+        	//以重试的方式执行请求
             makeRequestWithRetries();
         } catch (IOException e) {
             if (!isCancelled()) {
+            	//通知UI,发送失败
                 responseHandler.sendFailureMessage(0, null, null, e);
             } else {
                 Log.e("AsyncHttpRequest", "makeRequestWithRetries returned error", e);
@@ -117,9 +122,9 @@ public class AsyncHttpRequest implements Runnable {
         if (isCancelled()) {
             return;
         }
-
+        // 请求执行完毕
         responseHandler.sendFinishMessage();
-
+         
         if (isCancelled()) {
             return;
         }
@@ -129,7 +134,7 @@ public class AsyncHttpRequest implements Runnable {
 
         isFinished = true;
     }
-
+    //执行请求
     private void makeRequest() throws IOException {
         if (isCancelled()) {
             return;
@@ -152,13 +157,14 @@ public class AsyncHttpRequest implements Runnable {
         }
 
         // Carry out pre-processing for this response.
-        responseHandler.onPreProcessResponse(responseHandler, response);
 
+        responseHandler.onPreProcessResponse(responseHandler, response);
         if (isCancelled()) {
             return;
         }
 
         // The response is ready, handle it.
+        // 将响应分发出去
         responseHandler.sendResponseMessage(response);
 
         if (isCancelled()) {
@@ -169,6 +175,14 @@ public class AsyncHttpRequest implements Runnable {
         responseHandler.onPostProcessResponse(responseHandler, response);
     }
 
+    /**
+     * 
+     * @throws IOException
+     * 
+     * 以重试的方式不断执行请求,当一次执行成功后,才能跳出循环
+     * 
+     * 出现io,空指针,之外的其他异常,直接当io异常抛出
+     */
     private void makeRequestWithRetries() throws IOException {
         boolean retry = true;
         IOException cause = null;
@@ -176,6 +190,7 @@ public class AsyncHttpRequest implements Runnable {
         try {
             while (retry) {
                 try {
+                	//具体执行请求
                     makeRequest();
                     return;
                 } catch (UnknownHostException e) {

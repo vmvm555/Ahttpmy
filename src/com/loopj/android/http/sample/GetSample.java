@@ -30,7 +30,11 @@ import com.loopj.android.http.ResponseHandlerInterface;
 
 public class GetSample extends SampleParentActivity {
     private static final String LOG_TAG = "GetSample";
-
+    
+    
+    /**
+     * 执行某个实例
+     */
     @Override
     public RequestHandle executeSample(AsyncHttpClient client, String URL, Header[] headers, HttpEntity entity, ResponseHandlerInterface responseHandler) {
         return client.get(this, URL, headers, null, responseHandler);
@@ -56,6 +60,10 @@ public class GetSample extends SampleParentActivity {
         return "https://httpbin.org/get";
     }
 
+    
+    /**
+     * 异步http执行的后的回调响应
+     */
     @Override
     public ResponseHandlerInterface getResponseHandler() {
         return new AsyncHttpResponseHandler() {

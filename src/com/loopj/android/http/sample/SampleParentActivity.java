@@ -172,6 +172,9 @@ public abstract class SampleParentActivity extends Activity implements SampleInt
         }
     }
 
+    /**
+     * 执行一个请求,并将请求handle添加进集合
+     */
     public void onRunButtonPressed() {
         addRequestHandle(executeSample(getAsyncHttpClient(),
                 getUrlText(getDefaultURL()),
@@ -197,7 +200,12 @@ public abstract class SampleParentActivity extends Activity implements SampleInt
             }
         }
     };
-
+    
+    
+    /**
+     * 从UI上获取键值对,将他们分割后作为请求头添加进集合
+     * @return
+     */
     public List<Header> getRequestHeadersList() {
         List<Header> headers = new ArrayList<Header>();
         String headersRaw = headersEditText.getText() == null ? null : headersEditText.getText().toString();
@@ -228,7 +236,9 @@ public abstract class SampleParentActivity extends Activity implements SampleInt
         List<Header> headers = getRequestHeadersList();
         return headers.toArray(new Header[headers.size()]);
     }
-
+    /**
+     * 将请求体字符串封装成HttpEntity并返回
+     */
     public HttpEntity getRequestEntity() {
         String bodyText;
         if (isRequestBodyAllowed() && (bodyText = getBodyText()) != null) {
@@ -355,7 +365,9 @@ public abstract class SampleParentActivity extends Activity implements SampleInt
     public void setAsyncHttpClient(AsyncHttpClient client) {
         this.asyncHttpClient = client;
     }
-
+    /**
+     * 当系统版本号>11的时候,显示actionBar
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setHomeAsUpEnabled() {
         if (Integer.valueOf(Build.VERSION.SDK) >= 11) {
