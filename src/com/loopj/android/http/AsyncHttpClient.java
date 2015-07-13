@@ -122,7 +122,7 @@ import android.util.Log;
  * @see com.loopj.android.http.RequestParams
  */
 
-// asyn
+// a
 public class AsyncHttpClient {
 
 	public static final String LOG_TAG = "AsyncHttpClient";
